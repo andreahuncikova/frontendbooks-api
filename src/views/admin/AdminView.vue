@@ -83,7 +83,15 @@
 </template>
 
 <script setup lang="ts">
+  import { onMounted } from 'vue';
+  import { useProducts } from '../../modules/useProducts';
 
+  const { products, fetchProducts } = useProducts();
+
+
+  onMounted(() => {
+    fetchProducts();
+  });
 </script>
 
 <style scoped>
