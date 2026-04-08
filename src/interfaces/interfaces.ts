@@ -1,5 +1,5 @@
 export type Product = {
-  id: string,  
+  _id: string,  
   title: string,
   author: string,
   image: string,
@@ -9,8 +9,16 @@ export type Product = {
   pages: number,
   summary: string,
   available: boolean,
-  _createdBy: string
+  _createdBy: string,
+  hasDiscount?: boolean;
+  discount?: number;
+  hidden?: boolean;
 }
+
+export type newProduct = Omit<Product, '_id'> & {
+  _createdBy: string;
+}
+
 
 export type User = {
   id: string,
@@ -18,4 +26,22 @@ export type User = {
   email: string,
   password: string,
   registerDate: string
+}
+
+export type CartItem = {
+  _id: string,
+  title: string,
+  price: number,
+  quantity: number,
+  image: string,
+}
+
+export type OrderItems = {
+  _id: string,
+  orderDate: string,
+  total: number,
+  userName: string,
+  orderStatus: string,
+  orderNumber: string,
+  orderLine: Array<{book: Product, quantity: number}>
 }

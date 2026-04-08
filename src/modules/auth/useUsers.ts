@@ -1,9 +1,9 @@
 import { ref } from 'vue';
 import type { User } from '../../interfaces/interfaces';
+import { state } from '../globalState/state';
 
 export const useUsers = () => {
     const token = ref<string | null>(null);
-    const isLoggedIn = ref<boolean>(false);
     const error = ref<string | null>(null);
     const user = ref<User | null>(null);
 
@@ -31,7 +31,7 @@ export const useUsers = () => {
             const authResponse = await response.json();
             token.value = authResponse.data.token;
             user.value = authResponse.data.user;
-            isLoggedIn.value = true;
+            state.isLoggedIn = true;
 
             localStorage.setItem('lsToken', authResponse.data.token);
             localStorage.setItem('UserIDToken', authResponse.data.userID);
@@ -41,7 +41,7 @@ export const useUsers = () => {
 
         catch (err) {
             error.value = (err as Error).message || 'An error occurred during login';
-            isLoggedIn.value = false;
+            state.isLoggedIn = false;
         }
     };
 
@@ -62,16 +62,18 @@ export const useUsers = () => {
             }
 
             const authResponse = await response.json();
+            console.log('Full auth response:', JSON.stringify(authResponse)); 
             token.value = authResponse.data.token;
             user.value = authResponse.data.user;
 
+            localStorage.setItem('lsToken', authResponse.data.token);
             localStorage.setItem('UserIDToken', authResponse.data.userID);
             console.log('Registration successful:' + JSON.stringify(authResponse));
         }
 
         catch (err) {
             error.value = (err as Error).message || 'An error occurred during registration';
-            isLoggedIn.value = false;
+            state.isLoggedIn = false;
         }
     };
 
@@ -79,7 +81,7 @@ export const useUsers = () => {
     const logout = (): void => {
         token.value = null;
         user.value = null;
-        isLoggedIn.value = false;
+        state.isLoggedIn = false;
         localStorage.removeItem('lsToken');
         console.log('User logged out successfully');
     };
@@ -87,7 +89,7 @@ export const useUsers = () => {
 
     return {
         token,
-        isLoggedIn,
+        isLoggedIn: state.isLoggedIn,
         error,
         user,
         name,

@@ -14,6 +14,11 @@ const router = createRouter({
       name: 'about',
       component: () => import('../views/AboutView.vue'),
     },
+     {
+      path: '/cart',
+      name: 'cart',
+      component: () => import('../views/cart/CartView.vue'),
+    },
     {
       path: '/products',
       name: 'products',
@@ -25,13 +30,32 @@ const router = createRouter({
       component: () => import('../views/admin/AuthView.vue'),
     },
     {
+      path: '/orders',
+      name: 'orders',
+      component: () => import('../views/orders/OrdersView.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
       path: '/admin',
       name: 'admin',
       component: () => import('../views/admin/AdminView.vue'),
+      meta: { requiresAuth: true },
     },
+   
 
   ],
 })
+
+router.beforeEach((to, from, next) => { 
+  const isAuthenticated = localStorage.getItem('lsToken'); 
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+
+  if (requiresAuth && !isAuthenticated) {
+    next('/auth'); 
+  } else {
+    next(); 
+  }
+});
 
 
 export default router

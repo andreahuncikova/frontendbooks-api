@@ -1,4 +1,5 @@
-<template class="w-screen">
+<template>
+  <div class="w-screen">
   <header class="text-white py-4">
     <div class="wrapper" >
 
@@ -7,7 +8,10 @@
         <RouterLink to="/about" class="mr-4">About</RouterLink>
         <RouterLink to="/products" class="mr-4">Products</RouterLink>
         <RouterLink to="/auth" class="mr-4">Auth</RouterLink>
-        <RouterLink to="/admin" class="mr-4">Admin</RouterLink>
+        <RouterLink v-if="isLoggedIn" to="/admin" class="mr-4">Admin</RouterLink>
+
+        <button v-if="isLoggedIn" @click="logout" class="mr-4 text-black">Logout</button> <!-- Logout button -->
+       
 
 
 
@@ -15,7 +19,7 @@
 
 
         <!-- toggle cart button -->
-
+        <<button @click="toggleCart" class="bg-green-600 text-black p-2 rounded hover:bg-green-700 ml-2">Cart</button>
 
         <!-- Routerlink to orders -->
  
@@ -27,12 +31,31 @@
   <RouterView />
 
   <!-- CartBasket component -->
+  <CartBasket v-model="isCartOpen" :isVisible="isCartOpen" />
 
-
+  
+</div>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { RouterLink, RouterView } from 'vue-router'
+import { useUsers } from './modules/auth/useUsers';
+import { state } from './modules/globalState/state';
+import { ref } from 'vue';
+import CartBasket from './components/cart/CartBasketView.vue';
+
+
+const isCartOpen = ref(false);
+
+const toggleCart = () => {
+  isCartOpen.value = !isCartOpen.value;
+  console.log('Cart visibility toggled:', isCartOpen.value);
+};
+
+
+const { logout } = useUsers();
+const isLoggedIn = computed(() => state.isLoggedIn);
 
 </script>
 
