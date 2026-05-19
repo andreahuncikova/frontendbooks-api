@@ -18,6 +18,7 @@ export const useUsers = () => {
     const router = useRouter();
     const token = ref<string | null>(null);
     const error = ref<string | null>(null);
+    const loading = ref<boolean>(false);
     const user = ref<User | null>(null);
 
     const name = ref<string>('');
@@ -25,6 +26,8 @@ export const useUsers = () => {
     const password = ref<string>('');
 
     const fetchToken = async (email: string, password: string): Promise<void> => {
+        loading.value = true;
+        error.value = null;
         try {
             const response = await fetch(`${API_URL}/api/auth/login`, {
                 method: 'POST',
@@ -46,6 +49,8 @@ export const useUsers = () => {
         } catch (err) {
             error.value = (err as Error).message || 'An error occurred during login';
             state.isLoggedIn = false;
+        } finally {
+            loading.value = false;
         }
     };
 
@@ -73,9 +78,11 @@ export const useUsers = () => {
         token.value = null;
         user.value = null;
         state.isLoggedIn = false;
+        email.value = '';
+        password.value = '';
         localStorage.removeItem('lsToken');
         localStorage.removeItem('UserIDToken');
     };
 
-    return { token, isLoggedIn: state.isLoggedIn, error, user, name, email, password, fetchToken, registerUser, logout };
+    return { token, isLoggedIn: state.isLoggedIn, error, loading, user, name, email, password, fetchToken, registerUser, logout };
 }

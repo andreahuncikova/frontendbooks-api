@@ -24,9 +24,10 @@
           style="border-color:#e7e5e4; background:#fff8f0; color:#1c1917;"
           v-model="password" />
         <button @click="fetchToken(email, password)"
+          :disabled="loading"
           class="w-full py-2.5 rounded font-semibold text-sm transition mb-2"
-          style="background:#b45309; color:#fff;">
-          Login
+          :style="loading ? 'background:#d97706; color:#fff; cursor:not-allowed;' : 'background:#b45309; color:#fff;'">
+          {{ loading ? 'Signing in...' : 'Login' }}
         </button>
         <button @click="logout()"
           class="w-full py-2.5 rounded font-semibold text-sm transition"
@@ -85,7 +86,7 @@
 import { ref } from 'vue'
 import { useUsers } from '../../modules/auth/useUsers'
 
-const { fetchToken, registerUser, logout, email, password, error } = useUsers()
+const { fetchToken, registerUser, logout, email, password, error, loading } = useUsers()
 
 const registerDialog = ref<HTMLDialogElement | null>(null)
 const regName = ref('')

@@ -52,13 +52,20 @@ export const useCart = () => {
   const grandTotal = (): number =>
     Number(((cartTotal() + salesTax()) * couponCodeDiscount(code.value)).toFixed(2));
 
+  const getUserName = (): string => {
+    const token = localStorage.getItem('lsToken');
+    if (!token) return 'Guest';
+    try { return JSON.parse(atob(token.split('.')[1])).name || 'Guest'; }
+    catch { return 'Guest'; }
+  };
+
   const checkOutBuy = () => {
     const newOrder: OrderItems = {
       _id: `order_${Date.now()}`,
       orderDate: new Date().toISOString(),
-      total: cartTotal(),
+      total: grandTotal(),
       orderStatus: 'Processing',
-      userName: 'John Doe',
+      userName: getUserName(),
       orderNumber: `ORD-${Math.floor(Math.random() * 1000000)}`,
       orderLine: cart.value.map(item => ({
         book: {

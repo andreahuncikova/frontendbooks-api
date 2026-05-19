@@ -53,7 +53,7 @@
           </div>
           <div class="flex justify-between font-bold text-base mb-4">
             <span style="color:#1c1917;">Grand Total</span>
-            <span style="color:#b45309;">${{ grandTotal() }}</span>
+            <span style="color:#b45309;">${{ grandTotal().toFixed(2) }}</span>
           </div>
           <button @click="checkOutBuy"
             class="w-full py-3 rounded font-semibold transition"

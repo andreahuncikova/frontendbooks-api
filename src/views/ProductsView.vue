@@ -1,8 +1,47 @@
 <template>
   <div>
-    <div class="mb-8 pb-4 border-b" style="border-color:#e7e5e4;">
+    <div class="mb-6 pb-4 border-b" style="border-color:#e7e5e4;">
       <h2 class="text-3xl font-bold" style="color:#1c1917; font-family: 'Playfair Display', serif;">All Books</h2>
-      <p class="mt-1 text-sm" style="color:#78716c;">{{ products.length }} titles in our collection</p>
+      <p class="mt-1 text-sm" style="color:#78716c;">{{ filtered.length }} of {{ products.length }} titles</p>
+    </div>
+
+    <!-- Search + filter bar -->
+    <div class="mb-6 flex flex-col sm:flex-row gap-3">
+      <div class="relative flex-1">
+        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-sm" style="color:#a8a29e;">🔍</span>
+        <input
+          v-model="search"
+          type="text"
+          placeholder="Search by title or author..."
+          class="w-full pl-9 pr-4 py-2.5 rounded-lg border text-sm focus:outline-none"
+          style="border-color:#e7e5e4; background:#fff8f0; color:#1c1917;"
+        />
+      </div>
+      <button
+        v-if="search || activeGenre"
+        @click="search = ''; activeGenre = ''"
+        class="px-4 py-2.5 rounded-lg text-sm transition"
+        style="background:#e7e5e4; color:#78716c;">
+        Clear
+      </button>
+    </div>
+
+    <!-- Genre chips -->
+    <div class="flex flex-wrap gap-2 mb-8">
+      <button
+        @click="activeGenre = ''"
+        class="px-3 py-1 rounded-full text-xs font-semibold transition"
+        :style="activeGenre === '' ? 'background:#b45309; color:#fff;' : 'background:#e7e5e4; color:#78716c;'">
+        All
+      </button>
+      <button
+        v-for="genre in genres"
+        :key="genre"
+        @click="activeGenre = activeGenre === genre ? '' : genre"
+        class="px-3 py-1 rounded-full text-xs font-semibold transition"
+        :style="activeGenre === genre ? 'background:#b45309; color:#fff;' : 'background:#e7e5e4; color:#78716c;'">
+        {{ genre }}
+      </button>
     </div>
 
     <div v-if="loading" class="text-center py-20 text-sm" style="color:#78716c;">Loading...</div>
@@ -15,10 +54,16 @@
       </button>
     </div>
 
+    <div v-else-if="filtered.length === 0" class="text-center py-20">
+      <p class="text-4xl mb-4">📚</p>
+      <p class="font-semibold mb-1" style="color:#1c1917;">No books found</p>
+      <p class="text-sm" style="color:#78716c;">Try a different search or filter</p>
+    </div>
+
     <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      <div v-for="product in products" :key="product._id"
-        class="rounded-xl overflow-hidden shadow-sm flex flex-col transition hover:shadow-md"
-        style="background:#fff8f0; border:1px solid #e7e5e4;">
+      <div v-for="product in filtered" :key="product._id"
+        class="rounded-xl overflow-hidden shadow-sm flex flex-col transition hover:shadow-md hover:-translate-y-1"
+        style="background:#fff8f0; border:1px solid #e7e5e4; transition: box-shadow 0.2s, transform 0.2s;">
         <img :src="product.image" :alt="product.title" class="w-full h-52 object-cover">
         <div class="p-4 flex flex-col flex-1">
           <span class="text-xs font-semibold uppercase tracking-wide mb-1" style="color:#b45309;">
@@ -31,10 +76,12 @@
           <p class="text-sm flex-1 leading-relaxed line-clamp-2" style="color:#a8a29e;">{{ product.summary }}</p>
           <div class="flex items-center justify-between mt-4 pt-3" style="border-top:1px solid #e7e5e4;">
             <span class="text-lg font-bold" style="color:#1c1917;">${{ product.price.toFixed(2) }}</span>
-            <button @click="addToCart(product)"
+            <button
+              @click="addToCart(product)"
+              :disabled="!product.available"
               class="px-4 py-1.5 rounded text-sm font-semibold transition"
-              style="background:#b45309; color:#fff;">
-              Add to Cart
+              :style="product.available ? 'background:#b45309; color:#fff;' : 'background:#e7e5e4; color:#a8a29e; cursor:not-allowed;'">
+              {{ product.available ? 'Add to Cart' : 'Unavailable' }}
             </button>
           </div>
         </div>
@@ -44,11 +91,35 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { useProducts } from '../modules/useProducts'
 import { useCart } from '../modules/cart/useCart'
 
 const { addToCart } = useCart()
 const { loading, error, products, fetchProducts } = useProducts()
+
+const search = ref('')
+const activeGenre = ref('')
+
+const genres = computed(() => {
+  const all = products.value.map(p => p.genre).filter(Boolean)
+  return [...new Set(all)].sort()
+})
+
+const filtered = computed(() => {
+  let result = products.value
+  if (activeGenre.value) {
+    result = result.filter(p => p.genre === activeGenre.value)
+  }
+  if (search.value.trim()) {
+    const q = search.value.toLowerCase()
+    result = result.filter(p =>
+      p.title.toLowerCase().includes(q) ||
+      p.author.toLowerCase().includes(q)
+    )
+  }
+  return result
+})
+
 onMounted(() => { fetchProducts() })
 </script>

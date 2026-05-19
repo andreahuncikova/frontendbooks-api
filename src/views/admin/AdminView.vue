@@ -2,6 +2,11 @@
   <div>
     <h1 class="text-3xl font-bold mb-8" style="color:#1c1917; font-family:'Playfair Display',serif;">Admin Panel</h1>
 
+    <div v-if="actionMessage" class="mb-6 px-4 py-3 rounded text-sm font-semibold"
+      :style="actionMessage.success ? 'background:#dcfce7; color:#15803d;' : 'background:#fee2e2; color:#b91c1c;'">
+      {{ actionMessage.text }}
+    </div>
+
     <div v-if="loading" class="text-center py-12 text-sm" style="color:#78716c;">Loading...</div>
     <div v-else-if="error" class="text-center py-12 text-red-600">{{ error }}</div>
 
@@ -100,7 +105,7 @@
             style="background:#b45309; color:#fff;">
             Save
           </button>
-          <button @click="deleteProduct(product._id)"
+          <button @click="deleteProductHandler(product._id)"
             class="px-4 py-2 rounded text-sm font-semibold transition"
             style="background:#fee2e2; color:#b91c1c;">
             Delete
@@ -122,6 +127,12 @@
     fetchProducts();
   });
 
+  const actionMessage = ref<{ text: string; success: boolean } | null>(null);
+  const showMessage = (text: string, success: boolean) => {
+    actionMessage.value = { text, success };
+    setTimeout(() => { actionMessage.value = null; }, 3000);
+  };
+
   const newProduct = ref({
     title: '',
     author: '',
@@ -142,7 +153,12 @@
     const { userId } = getTokenAndUserId();
     newProduct.value._createdBy = userId;
     await addProduct(newProduct.value);
-    newProduct.value = { ...newProduct.value };
+    if (error.value) {
+      showMessage(error.value, false);
+    } else {
+      showMessage('Book created successfully', true);
+      newProduct.value = { title: '', author: '', summary: '', price: 0, genre: '', publishedYear: 0, pages: 0, available: false, hasDiscount: false, discount: 0, hidden: false, image: '', _createdBy: '' };
+    }
   }
 
   const updateProductHandler = async (product: Product) => {
@@ -162,6 +178,14 @@
       _createdBy: product._createdBy,
     };
     await updateProduct(product._id, updatedProduct);
+    if (error.value) showMessage(error.value, false);
+    else showMessage('Book updated successfully', true);
+  }
+
+  const deleteProductHandler = async (id: string) => {
+    await deleteProduct(id);
+    if (error.value) showMessage(error.value, false);
+    else showMessage('Book deleted', true);
   }
 </script>
 
