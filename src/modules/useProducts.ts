@@ -64,8 +64,10 @@ export const useProducts = () => {
             });
 
             if (!response.ok) {
-                const errorResponse = await response.json();
-                throw new Error(errorResponse.message || 'Failed to add product');
+                const text = await response.text();
+                let message = 'Failed to add product';
+                try { message = JSON.parse(text).message || message; } catch { /* HTML response */ }
+                throw new Error(message);
             }
 
             const createdProduct: Product = await response.json();

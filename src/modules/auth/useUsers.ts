@@ -24,8 +24,10 @@ export const useUsers = () => {
             });
 
             if (!response.ok) {
-                const errorResponse = await response.json();
-                throw new Error(errorResponse.error || 'Login failed');
+                const text = await response.text();
+                let message = 'Login failed';
+                try { message = JSON.parse(text).error || message; } catch { /* HTML response */ }
+                throw new Error(message);
             }
 
             const authResponse = await response.json();
@@ -51,8 +53,10 @@ export const useUsers = () => {
             });
 
             if (!response.ok) {
-                const errorResponse = await response.json();
-                throw new Error(errorResponse.error || 'Registration failed');
+                const text = await response.text();
+                let message = 'Registration failed';
+                try { message = JSON.parse(text).error || message; } catch { /* HTML response */ }
+                throw new Error(message);
             }
 
             // register returns only the user ID, not a token — user must log in separately
