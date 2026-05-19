@@ -5,6 +5,15 @@ import { state } from '../globalState/state';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+async function parseResponse(response: Response): Promise<unknown> {
+    const text = await response.text();
+    try {
+        return JSON.parse(text);
+    } catch {
+        throw new Error('Server is starting up, please refresh in a moment');
+    }
+}
+
 export const useUsers = () => {
     const router = useRouter();
     const token = ref<string | null>(null);
@@ -23,20 +32,16 @@ export const useUsers = () => {
                 body: JSON.stringify({ email, password }),
             });
 
+            const data = await parseResponse(response) as { error: string; data: { token: string; userId: string } };
+
             if (!response.ok) {
-                const text = await response.text();
-                let message = 'Login failed';
-                try { message = JSON.parse(text).error || message; } catch { /* HTML response */ }
-                throw new Error(message);
+                throw new Error(data.error || 'Login failed');
             }
 
-            const authResponse = await response.json();
-            token.value = authResponse.data.token;
+            token.value = data.data.token;
             state.isLoggedIn = true;
-
-            localStorage.setItem('lsToken', authResponse.data.token);
-            localStorage.setItem('UserIDToken', authResponse.data.userId);
-
+            localStorage.setItem('lsToken', data.data.token);
+            localStorage.setItem('UserIDToken', data.data.userId);
             router.push('/products');
         } catch (err) {
             error.value = (err as Error).message || 'An error occurred during login';
@@ -52,14 +57,12 @@ export const useUsers = () => {
                 body: JSON.stringify({ name, email, password }),
             });
 
+            const data = await parseResponse(response) as { error: string };
+
             if (!response.ok) {
-                const text = await response.text();
-                let message = 'Registration failed';
-                try { message = JSON.parse(text).error || message; } catch { /* HTML response */ }
-                throw new Error(message);
+                throw new Error(data.error || 'Registration failed');
             }
 
-            // register returns only the user ID, not a token — user must log in separately
             error.value = null;
         } catch (err) {
             error.value = (err as Error).message || 'An error occurred during registration';

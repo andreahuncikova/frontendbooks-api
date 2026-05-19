@@ -1,9 +1,12 @@
 <template>
   <div class="min-h-screen" style="background:#faf7f2">
     <header style="background:#1c1917" class="px-8 py-4 flex items-center justify-between sticky top-0 z-40 shadow-md">
-      <span class="text-2xl font-bold tracking-wide" style="color:#faf7f2; font-family: 'Playfair Display', serif;">
-        📚 BookStore
-      </span>
+      <RouterLink to="/" class="flex items-center gap-3" style="text-decoration:none;">
+        <img src="/logo.svg" alt="BookStore" class="w-9 h-9" />
+        <span class="text-2xl font-bold tracking-wide" style="color:#faf7f2; font-family: 'Playfair Display', serif;">
+          BookStore
+        </span>
+      </RouterLink>
       <nav class="flex items-center gap-6">
         <RouterLink to="/" class="text-sm hover:opacity-80 transition" style="color:#d6c9b8;">Home</RouterLink>
         <RouterLink to="/products" class="text-sm hover:opacity-80 transition" style="color:#d6c9b8;">Products</RouterLink>

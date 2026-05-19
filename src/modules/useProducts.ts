@@ -12,8 +12,11 @@ export const useProducts = () => {
         loading.value = true;
         try {
             const response = await fetch(`${API_URL}/api/books`);
-            if (!response.ok) throw new Error('Failed to fetch products');
-            products.value = await response.json();
+            const text = await response.text();
+            let data;
+            try { data = JSON.parse(text); } catch { throw new Error('Server is starting up, please refresh in a moment'); }
+            if (!response.ok) throw new Error(data.message || 'Failed to fetch products');
+            products.value = data;
         } catch (err) {
             error.value = (err as Error).message;
         } finally {

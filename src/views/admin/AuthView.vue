@@ -10,6 +10,11 @@
       <div class="mb-12">
         <h2 class="text-3xl font-bold mb-1" style="color:#1c1917; font-family: 'Playfair Display', serif;">Sign in</h2>
         <p class="text-sm mb-6" style="color:#78716c;">Welcome back to BookStore</p>
+
+        <div v-if="error" class="mb-4 px-4 py-2.5 rounded text-sm" style="background:#fee2e2; color:#b91c1c;">
+          {{ error }}
+        </div>
+
         <input type="text" placeholder="Email"
           class="block w-full mb-3 px-4 py-2.5 rounded border text-sm focus:outline-none"
           style="border-color:#e7e5e4; background:#fff8f0; color:#1c1917;"
@@ -38,20 +43,28 @@
         <dialog ref="registerDialog" class="rounded-xl shadow-xl p-8 w-full max-w-sm"
           style="background:#fff8f0; border:1px solid #e7e5e4;">
           <h3 class="text-2xl font-bold mb-6" style="color:#1c1917; font-family: 'Playfair Display', serif;">Create account</h3>
+
+          <div v-if="registerError" class="mb-4 px-4 py-2.5 rounded text-sm" style="background:#fee2e2; color:#b91c1c;">
+            {{ registerError }}
+          </div>
+          <div v-if="registerSuccess" class="mb-4 px-4 py-2.5 rounded text-sm" style="background:#dcfce7; color:#15803d;">
+            Account created! You can now log in.
+          </div>
+
           <form class="flex flex-col gap-3">
             <input type="text" placeholder="Full name"
               class="px-4 py-2.5 rounded border text-sm focus:outline-none"
               style="border-color:#e7e5e4; background:#faf7f2; color:#1c1917;"
-              v-model="name" />
+              v-model="regName" />
             <input type="text" placeholder="Email"
               class="px-4 py-2.5 rounded border text-sm focus:outline-none"
               style="border-color:#e7e5e4; background:#faf7f2; color:#1c1917;"
-              v-model="email" />
+              v-model="regEmail" />
             <input type="password" placeholder="Password"
               class="px-4 py-2.5 rounded border text-sm focus:outline-none"
               style="border-color:#e7e5e4; background:#faf7f2; color:#1c1917;"
-              v-model="password" />
-            <button @click.prevent="registerUser(name, email, password)"
+              v-model="regPassword" />
+            <button @click.prevent="handleRegister"
               class="w-full py-2.5 rounded font-semibold text-sm mt-2"
               style="background:#b45309; color:#fff;">
               Register
@@ -71,12 +84,35 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useUsers } from '../../modules/auth/useUsers'
-const { fetchToken, registerUser, logout, name, email, password } = useUsers()
+
+const { fetchToken, registerUser, logout, email, password, error } = useUsers()
 
 const registerDialog = ref<HTMLDialogElement | null>(null)
+const regName = ref('')
+const regEmail = ref('')
+const regPassword = ref('')
+const registerError = ref<string | null>(null)
+const registerSuccess = ref(false)
+
 const toggleRegisterDialog = () => {
   if (registerDialog.value) {
     registerDialog.value.open ? registerDialog.value.close() : registerDialog.value.showModal()
+  }
+  registerError.value = null
+  registerSuccess.value = false
+}
+
+const handleRegister = async () => {
+  registerError.value = null
+  registerSuccess.value = false
+  await registerUser(regName.value, regEmail.value, regPassword.value)
+  if (error.value) {
+    registerError.value = error.value
+  } else {
+    registerSuccess.value = true
+    regName.value = ''
+    regEmail.value = ''
+    regPassword.value = ''
   }
 }
 </script>
