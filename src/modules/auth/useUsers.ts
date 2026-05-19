@@ -1,8 +1,12 @@
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import type { User } from '../../interfaces/interfaces';
 import { state } from '../globalState/state';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const useUsers = () => {
+    const router = useRouter();
     const token = ref<string | null>(null);
     const error = ref<string | null>(null);
     const user = ref<User | null>(null);
@@ -11,92 +15,60 @@ export const useUsers = () => {
     const email = ref<string>('');
     const password = ref<string>('');
 
-    // fetchToken
     const fetchToken = async (email: string, password: string): Promise<void> => {
         try {
-            const response = await fetch('https://api-e7dw.onrender.com/api/auth/login', {
+            const response = await fetch(`${API_URL}/api/auth/login`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'auth-token': localStorage.getItem('lsToken') || ''
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password }),
             });
+
             if (!response.ok) {
                 const errorResponse = await response.json();
-                console.error(errorResponse.error || 'Unknown error');
-                throw new Error('No data available');
+                throw new Error(errorResponse.error || 'Login failed');
             }
 
             const authResponse = await response.json();
             token.value = authResponse.data.token;
-            user.value = authResponse.data.user;
             state.isLoggedIn = true;
 
             localStorage.setItem('lsToken', authResponse.data.token);
-            localStorage.setItem('UserIDToken', authResponse.data.userID);
-            console.log('Login successful:' + JSON.stringify(authResponse));
-            console.log('Token stored in localStorage:', authResponse.data.token);
-        }
+            localStorage.setItem('UserIDToken', authResponse.data.userId);
 
-        catch (err) {
+            router.push('/products');
+        } catch (err) {
             error.value = (err as Error).message || 'An error occurred during login';
             state.isLoggedIn = false;
         }
     };
 
-
-
-    // registerUser
     const registerUser = async (name: string, email: string, password: string): Promise<void> => {
         try {
-            const response = await fetch('https://api-e7dw.onrender.com/api/auth/register', {
+            const response = await fetch(`${API_URL}/api/auth/register`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name, email, password }),
             });
+
             if (!response.ok) {
-                throw new Error('No data available');
+                const errorResponse = await response.json();
+                throw new Error(errorResponse.error || 'Registration failed');
             }
 
-            const authResponse = await response.json();
-            console.log('Full auth response:', JSON.stringify(authResponse)); 
-            token.value = authResponse.data.token;
-            user.value = authResponse.data.user;
-
-            localStorage.setItem('lsToken', authResponse.data.token);
-            localStorage.setItem('UserIDToken', authResponse.data.userID);
-            console.log('Registration successful:' + JSON.stringify(authResponse));
-        }
-
-        catch (err) {
+            // register returns only the user ID, not a token — user must log in separately
+            error.value = null;
+        } catch (err) {
             error.value = (err as Error).message || 'An error occurred during registration';
-            state.isLoggedIn = false;
         }
     };
 
-    // logout function
     const logout = (): void => {
         token.value = null;
         user.value = null;
         state.isLoggedIn = false;
         localStorage.removeItem('lsToken');
-        console.log('User logged out successfully');
+        localStorage.removeItem('UserIDToken');
     };
 
-
-    return {
-        token,
-        isLoggedIn: state.isLoggedIn,
-        error,
-        user,
-        name,
-        email,
-        password,
-        fetchToken,
-        registerUser,
-        logout
-    };
+    return { token, isLoggedIn: state.isLoggedIn, error, user, name, email, password, fetchToken, registerUser, logout };
 }

@@ -22,10 +22,10 @@ export const useCart = () => {
 
 const removeFromCart = (productId: string) => {
   const existingItem = cart.value.findIndex(item => item._id === productId)
-  if (existingItem) {
+  if (existingItem !== -1) {
     cart.value = cart.value.filter(item => item._id !== productId)
     localStorage.setItem('cart', JSON.stringify(cart.value))
-    }
+  }
 }
 
 const updateQuantity = (productId: string, quantity: number) => {
@@ -52,7 +52,7 @@ const updateQuantity = (productId: string, quantity: number) => {
     };
 
     const salesTax = (): number => {
-        const taxRates = 0.25
+        const taxRates = 0.10
         return Math.round(cartTotal() * taxRates * 100) / 100;
     }
 
