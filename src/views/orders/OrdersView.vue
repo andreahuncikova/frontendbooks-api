@@ -1,7 +1,7 @@
 <template>
   <div class="flex gap-8">
     <div class="flex-1">
-      <h2 class="text-3xl font-bold mb-8" style="color:#1c1917; font-family:Georgia,serif;">Order History</h2>
+      <h2 class="text-3xl font-bold mb-8" style="color:#1c1917; font-family:'Playfair Display',serif;">Order History</h2>
 
       <p v-if="orders.length === 0" class="text-center py-20 text-sm" style="color:#78716c;">No orders yet.</p>
 
@@ -34,7 +34,7 @@
             class="flex items-center gap-4 py-3" style="border-top:1px solid #e7e5e4;">
             <img :src="item.book.image" alt="" class="w-12 h-16 object-cover rounded">
             <div class="flex-1">
-              <p class="font-semibold text-sm" style="color:#1c1917; font-family:Georgia,serif;">{{ item.book.title }}</p>
+              <p class="font-semibold text-sm" style="color:#1c1917; font-family:'Playfair Display',serif;">{{ item.book.title }}</p>
               <p class="text-xs mt-0.5" style="color:#78716c;">Qty: {{ item.quantity }}</p>
             </div>
             <p class="font-bold text-sm" style="color:#b45309;">
@@ -53,7 +53,7 @@
 
     <div class="w-64 shrink-0">
       <div class="rounded-xl p-6 sticky top-24" style="background:#fff8f0; border:1px solid #e7e5e4;">
-        <h3 class="text-lg font-bold mb-2" style="color:#1c1917; font-family:Georgia,serif;">Revenue</h3>
+        <h3 class="text-lg font-bold mb-2" style="color:#1c1917; font-family:'Playfair Display',serif;">Revenue</h3>
         <p class="text-xs mb-4" style="color:#78716c;">Shipped + Delivered orders only</p>
         <p class="text-3xl font-bold" style="color:#b45309;">${{ totalRevenue.toFixed(2) }}</p>
       </div>

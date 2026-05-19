@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="text-3xl font-bold mb-8" style="color:#1c1917; font-family:Georgia,serif;">Admin Panel</h1>
+    <h1 class="text-3xl font-bold mb-8" style="color:#1c1917; font-family:'Playfair Display',serif;">Admin Panel</h1>
 
     <div v-if="loading" class="text-center py-12 text-sm" style="color:#78716c;">Loading...</div>
     <div v-else-if="error" class="text-center py-12 text-red-600">{{ error }}</div>
@@ -8,7 +8,7 @@
     <div v-else>
       <!-- Add Product -->
       <div class="rounded-xl p-6 mb-10 shadow-sm" style="background:#fff8f0; border:1px solid #e7e5e4;">
-        <h2 class="text-xl font-bold mb-6" style="color:#1c1917; font-family:Georgia,serif;">Add New Book</h2>
+        <h2 class="text-xl font-bold mb-6" style="color:#1c1917; font-family:'Playfair Display',serif;">Add New Book</h2>
         <form @submit.prevent="addProductHandler">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
             <input v-model="newProduct.title" type="text" placeholder="Title"
@@ -54,7 +54,7 @@
       </div>
 
       <!-- Existing Products -->
-      <h2 class="text-xl font-bold mb-4" style="color:#1c1917; font-family:Georgia,serif;">All Books</h2>
+      <h2 class="text-xl font-bold mb-4" style="color:#1c1917; font-family:'Playfair Display',serif;">All Books</h2>
       <div v-for="product in products" :key="product._id"
         class="rounded-xl p-5 mb-4 shadow-sm"
         style="background:#fff8f0; border:1px solid #e7e5e4;">

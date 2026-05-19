@@ -1,6 +1,6 @@
 <template>
   <div class="max-w-2xl mx-auto">
-    <h2 class="text-3xl font-bold mb-8" style="color:#1c1917; font-family:Georgia,serif;">Checkout</h2>
+    <h2 class="text-3xl font-bold mb-8" style="color:#1c1917; font-family:'Playfair Display',serif;">Checkout</h2>
 
     <p v-if="cart.length === 0" class="text-center py-20 text-sm" style="color:#78716c;">
       Your cart is empty.
@@ -11,7 +11,7 @@
         class="flex items-center gap-4 py-4" style="border-bottom:1px solid #e7e5e4;">
         <img :src="item.image" alt="" class="w-16 h-20 object-cover rounded">
         <div class="flex-1">
-          <p class="font-semibold" style="color:#1c1917; font-family:Georgia,serif;">{{ item.title }}</p>
+          <p class="font-semibold" style="color:#1c1917; font-family:'Playfair Display',serif;">{{ item.title }}</p>
           <div class="flex items-center gap-2 mt-2">
             <button @click="updateQuantity(item._id, item.quantity - 1)"
               class="w-6 h-6 rounded text-sm"

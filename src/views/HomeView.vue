@@ -1,10 +1,10 @@
 <template>
   <div class="flex flex-col items-center justify-center text-center py-24 px-4">
     <p class="text-sm uppercase tracking-widest mb-4" style="color:#b45309;">Welcome to our store</p>
-    <h1 class="text-6xl font-bold mb-6" style="color:#1c1917; font-family: Georgia, serif; line-height:1.1;">
+    <h1 class="text-6xl font-bold mb-6" style="color:#1c1917; font-family: 'Playfair Display', serif; line-height:1.1;">
       Find your next<br>favourite book
     </h1>
-    <p class="text-lg max-w-lg mb-10" style="color:#78716c; font-family: Georgia, serif;">
+    <p class="text-lg max-w-lg mb-10" style="color:#78716c; font-family: 'Playfair Display', serif;">
       Handpicked titles across every genre. Browse, add to cart, and get reading.
     </p>
     <RouterLink

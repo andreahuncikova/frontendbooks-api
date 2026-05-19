@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen" style="background:#faf7f2">
     <header style="background:#1c1917" class="px-8 py-4 flex items-center justify-between sticky top-0 z-40 shadow-md">
-      <span class="text-2xl font-bold tracking-wide" style="color:#faf7f2; font-family: Georgia, serif;">
+      <span class="text-2xl font-bold tracking-wide" style="color:#faf7f2; font-family: 'Playfair Display', serif;">
         📚 BookStore
       </span>
       <nav class="flex items-center gap-6">

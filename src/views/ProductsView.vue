@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="mb-8 pb-4 border-b" style="border-color:#e7e5e4;">
-      <h2 class="text-3xl font-bold" style="color:#1c1917; font-family: Georgia, serif;">All Books</h2>
+      <h2 class="text-3xl font-bold" style="color:#1c1917; font-family: 'Playfair Display', serif;">All Books</h2>
       <p class="mt-1 text-sm" style="color:#78716c;">{{ products.length }} titles in our collection</p>
     </div>
 
@@ -17,7 +17,7 @@
           <span class="text-xs font-semibold uppercase tracking-wide mb-1" style="color:#b45309;">
             {{ product.genre }}
           </span>
-          <h3 class="font-bold text-base mb-0.5 leading-snug" style="color:#1c1917; font-family: Georgia, serif;">
+          <h3 class="font-bold text-base mb-0.5 leading-snug" style="color:#1c1917; font-family: 'Playfair Display', serif;">
             {{ product.title }}
           </h3>
           <p class="text-sm mb-2" style="color:#78716c;">by {{ product.author }}</p>

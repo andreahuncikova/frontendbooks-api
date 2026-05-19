@@ -8,7 +8,7 @@
     <div class="w-full md:w-1/2 flex flex-col justify-center px-12 py-10">
       <!-- Login -->
       <div class="mb-12">
-        <h2 class="text-3xl font-bold mb-1" style="color:#1c1917; font-family: Georgia, serif;">Sign in</h2>
+        <h2 class="text-3xl font-bold mb-1" style="color:#1c1917; font-family: 'Playfair Display', serif;">Sign in</h2>
         <p class="text-sm mb-6" style="color:#78716c;">Welcome back to BookStore</p>
         <input type="text" placeholder="Email"
           class="block w-full mb-3 px-4 py-2.5 rounded border text-sm focus:outline-none"
@@ -37,7 +37,7 @@
         </p>
         <dialog ref="registerDialog" class="rounded-xl shadow-xl p-8 w-full max-w-sm"
           style="background:#fff8f0; border:1px solid #e7e5e4;">
-          <h3 class="text-2xl font-bold mb-6" style="color:#1c1917; font-family: Georgia, serif;">Create account</h3>
+          <h3 class="text-2xl font-bold mb-6" style="color:#1c1917; font-family: 'Playfair Display', serif;">Create account</h3>
           <form class="flex flex-col gap-3">
             <input type="text" placeholder="Full name"
               class="px-4 py-2.5 rounded border text-sm focus:outline-none"

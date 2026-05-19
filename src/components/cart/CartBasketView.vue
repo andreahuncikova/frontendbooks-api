@@ -7,7 +7,7 @@
         style="background:#fff8f0; border-left:1px solid #e7e5e4;">
 
         <div class="flex items-center justify-between px-6 py-4" style="border-bottom:1px solid #e7e5e4;">
-          <h2 class="text-xl font-bold" style="color:#1c1917; font-family:Georgia,serif;">Your Cart</h2>
+          <h2 class="text-xl font-bold" style="color:#1c1917; font-family:'Playfair Display',serif;">Your Cart</h2>
           <button @click="toggleCart" class="text-3xl leading-none" style="color:#78716c;">&times;</button>
         </div>
 
@@ -18,7 +18,7 @@
           <div v-for="item in cart" :key="item._id" class="flex gap-4 pb-4 mb-4" style="border-bottom:1px solid #e7e5e4;">
             <img :src="item.image" alt="" class="w-16 h-20 object-cover rounded">
             <div class="flex-1">
-              <p class="font-semibold text-sm leading-snug" style="color:#1c1917; font-family:Georgia,serif;">{{ item.title }}</p>
+              <p class="font-semibold text-sm leading-snug" style="color:#1c1917; font-family:'Playfair Display',serif;">{{ item.title }}</p>
               <p class="text-xs mt-0.5" style="color:#78716c;">${{ item.price.toFixed(2) }} each</p>
               <div class="flex items-center gap-2 mt-2">
                 <button @click="updateQuantity(item._id, item.quantity - 1)"
