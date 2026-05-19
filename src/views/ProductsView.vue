@@ -6,7 +6,14 @@
     </div>
 
     <div v-if="loading" class="text-center py-20 text-sm" style="color:#78716c;">Loading...</div>
-    <div v-else-if="error" class="text-center py-20 text-red-600">{{ error }}</div>
+    <div v-else-if="error" class="text-center py-20">
+      <p class="text-sm mb-4" style="color:#78716c;">{{ error }}</p>
+      <button @click="fetchProducts()"
+        class="px-5 py-2 rounded text-sm font-semibold transition"
+        style="background:#b45309; color:#fff;">
+        Retry
+      </button>
+    </div>
 
     <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       <div v-for="product in products" :key="product._id"

@@ -8,15 +8,28 @@ export const useProducts = () => {
     const loading = ref<boolean>(false);
     const products = ref<Product[]>([]);
 
-    const fetchProducts = async (): Promise<void> => {
+    const fetchProducts = async (retryCount = 0): Promise<void> => {
         loading.value = true;
+        error.value = null;
         try {
             const response = await fetch(`${API_URL}/api/books`);
             const text = await response.text();
             let data;
-            try { data = JSON.parse(text); } catch { throw new Error('Server is starting up, please refresh in a moment'); }
+            try {
+                data = JSON.parse(text);
+            } catch {
+                // server returned HTML — it's waking up, retry automatically
+                if (retryCount < 10) {
+                    error.value = `Server is starting up... (attempt ${retryCount + 1}/10)`;
+                    loading.value = false;
+                    setTimeout(() => fetchProducts(retryCount + 1), 5000);
+                    return;
+                }
+                throw new Error('Server is unavailable, please try again later');
+            }
             if (!response.ok) throw new Error(data.message || 'Failed to fetch products');
             products.value = data;
+            error.value = null;
         } catch (err) {
             error.value = (err as Error).message;
         } finally {
