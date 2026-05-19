@@ -3,48 +3,38 @@
 @tailwind components;
 @tailwind utilities;
 
-
 :root {
-  --full-width: 100%;
-
-  --linkColor: #63a9cd;
-  --linkColorHover: #65f6fe;
-  --input-field-color: #39ebb3;
-
+  --bg: #faf7f2;
+  --surface: #fff8f0;
+  --text: #1c1917;
+  --muted: #78716c;
+  --border: #e7e5e4;
+  --accent: #b45309;
+  --accent-hover: #92400e;
+  --linkColor: #b45309;
+  --linkColorHover: #92400e;
+  --input-field-color: #b45309;
 }
-* {
-  box-sizing: border-box !important;
+
+* { box-sizing: border-box !important; }
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: Georgia, 'Times New Roman', serif;
 }
 
 #app {
-  max-width: 1880px;
+  max-width: 1440px;
   margin: 0 auto;
   font-weight: normal;
 }
 
-a,
-.green {
+a, .green {
   text-decoration: none;
   color: var(--linkColor);
-  transition: 0.4s;
+  transition: 0.3s;
   padding: 3px;
 }
 
-@media (hover: hover) {
-  a:hover {
-    color: var(--linkColorHover);
-  }
-}
-
-@media (width > 1024px) {
-  body {
-    display: flex;
-
-  }
-
-  #app {
-  /*   width: var(--full-width); */
-    display: grid;
-    grid-template-columns: 1fr;
-  }
-}
+a:hover { color: var(--linkColorHover); }

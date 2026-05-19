@@ -1,40 +1,47 @@
 <template>
-  <div class="">
-    <h2 class="text-2xl font-bold mb-4">Products</h2>
-    <div v-if="loading" class="text-center">Loading...</div>                                           <!-- Loading wait screen with v-if -->
+  <div>
+    <div class="mb-8 pb-4 border-b" style="border-color:#e7e5e4;">
+      <h2 class="text-3xl font-bold" style="color:#1c1917; font-family: Georgia, serif;">All Books</h2>
+      <p class="mt-1 text-sm" style="color:#78716c;">{{ products.length }} titles in our collection</p>
+    </div>
 
-    <div v-else-if="error" class="text-center text-red-500">{{ error }}</div>                                        <!-- Error message with v-else-if -->
+    <div v-if="loading" class="text-center py-20 text-sm" style="color:#78716c;">Loading...</div>
+    <div v-else-if="error" class="text-center py-20 text-red-600">{{ error }}</div>
 
-    <div v-else class="flex flex-wrap -mx-2">                                                  <!-- Loop through the products -->
-      <div v-for="product in products" :key="product._id" class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2" >                              <!-- Product card with v-for -->
-        <div class="bg-white p-4 rounded-lg shadow-md">
-        <img :src="product.image" :alt="product.title" class="w-full h-48 object-cover mb-4 rounded-lg">      <!-- Product image -->
-          <h3 class="text-lg text-gray-700 font-semibold mb-2">{{ product.title }}</h3>                  <!-- Product name -->
-          <p class="text-gray-700">{{ product.summary }}</p>                                               <!-- Product description -->
-          <p class="text-blue-500 font-bold mt-2">${{ product.price.toFixed(2) }}</p>                                <!-- Product price -->
-          <div class="flex justify-between mt-4">
-            <button class="bg-blue-500 text-white px-1 py-2 rounded hover:bg-blue-600">Product Details</button>
-            <button @click="addToCart(product)" class="bg-green-500 text-white px-1 py-2 rounded hover:bg-green-600">Add to Cart</button> <!-- Add to cart button -->
+    <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div v-for="product in products" :key="product._id"
+        class="rounded-xl overflow-hidden shadow-sm flex flex-col transition hover:shadow-md"
+        style="background:#fff8f0; border:1px solid #e7e5e4;">
+        <img :src="product.image" :alt="product.title" class="w-full h-52 object-cover">
+        <div class="p-4 flex flex-col flex-1">
+          <span class="text-xs font-semibold uppercase tracking-wide mb-1" style="color:#b45309;">
+            {{ product.genre }}
+          </span>
+          <h3 class="font-bold text-base mb-0.5 leading-snug" style="color:#1c1917; font-family: Georgia, serif;">
+            {{ product.title }}
+          </h3>
+          <p class="text-sm mb-2" style="color:#78716c;">by {{ product.author }}</p>
+          <p class="text-sm flex-1 leading-relaxed line-clamp-2" style="color:#a8a29e;">{{ product.summary }}</p>
+          <div class="flex items-center justify-between mt-4 pt-3" style="border-top:1px solid #e7e5e4;">
+            <span class="text-lg font-bold" style="color:#1c1917;">${{ product.price.toFixed(2) }}</span>
+            <button @click="addToCart(product)"
+              class="px-4 py-1.5 rounded text-sm font-semibold transition"
+              style="background:#b45309; color:#fff;">
+              Add to Cart
+            </button>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { onMounted } from 'vue'
-  import { useProducts } from '../modules/useProducts'
-  import { useCart } from '../modules/cart/useCart'
+import { onMounted } from 'vue'
+import { useProducts } from '../modules/useProducts'
+import { useCart } from '../modules/cart/useCart'
 
-  const { addToCart } = useCart()
-  const { loading, error, products, fetchProducts } = useProducts()
-
-  onMounted(() => {
-    fetchProducts()
-  })
+const { addToCart } = useCart()
+const { loading, error, products, fetchProducts } = useProducts()
+onMounted(() => { fetchProducts() })
 </script>
-
-<style scoped>
-</style>

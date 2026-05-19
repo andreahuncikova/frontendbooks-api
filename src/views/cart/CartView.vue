@@ -1,50 +1,55 @@
 <template>
-  <div class="p-4">
-    <h2 class="text-2xl font-bold mb-4">Checkout Section</h2>
-    <p v-if="cart.length === 0" class="text-center pt-5">Items have been order <br> You have no orders currently</p> <!-- If cart is empty -->
-    <div v-else> <!-- If cart is not empty -->
-      <div v-for="item in cart" :key="item._id" class="flex items-center mb-4 border-b pb-4"> <!-- Loop through the cart items -->
-        <!-- First Column: Image -->
-        <div class="w-1/6">
-          <img :src="item.image"  alt="Product Image" class="w-full h-24 object-cover rounded-lg"> <!-- Product image -->
+  <div class="max-w-2xl mx-auto">
+    <h2 class="text-3xl font-bold mb-8" style="color:#1c1917; font-family:Georgia,serif;">Checkout</h2>
+
+    <p v-if="cart.length === 0" class="text-center py-20 text-sm" style="color:#78716c;">
+      Your cart is empty.
+    </p>
+
+    <div v-else>
+      <div v-for="item in cart" :key="item._id"
+        class="flex items-center gap-4 py-4" style="border-bottom:1px solid #e7e5e4;">
+        <img :src="item.image" alt="" class="w-16 h-20 object-cover rounded">
+        <div class="flex-1">
+          <p class="font-semibold" style="color:#1c1917; font-family:Georgia,serif;">{{ item.title }}</p>
+          <div class="flex items-center gap-2 mt-2">
+            <button @click="updateQuantity(item._id, item.quantity - 1)"
+              class="w-6 h-6 rounded text-sm"
+              style="background:#e7e5e4; color:#1c1917;">−</button>
+            <span class="text-sm" style="color:#1c1917;">{{ item.quantity }}</span>
+            <button @click="updateQuantity(item._id, item.quantity + 1)"
+              class="w-6 h-6 rounded text-sm"
+              style="background:#e7e5e4; color:#1c1917;">+</button>
+          </div>
         </div>
-        <!-- Second Column: Title and Description -->
-        <div class="w-2/6 px-4">
-          <p class="font-semibold"> {{ item.title }} </p> <!-- Product name -->
-         <!--  <p class="text-gray-500">{{ item.description }}</p> -->
-        </div>
-        <!-- Third Column: Quantity with + and - -->
-        <div class="w-1/6 flex items-center">
-          <button @click="updateQuantity(item._id, item.quantity - 1)" class="bg-orange-600 px-2">-</button> <!-- Decrease quantity -->
-          <span class="mx-2">{{ item.quantity }}</span> <!-- Quantity -->
-          <button @click="updateQuantity(item._id, item.quantity + 1)" class="bg-teal-600 px-2">+</button> <!-- Increase quantity -->
-        </div>
-        <!-- Fourth Column: Total Price -->
-        <div class="w-1/6 text-right">
-          <p class="font-semibold">$ {{ (item.price * item.quantity).toFixed(2) }}</p> <!-- Total price of the product with .toFixed() -->
-        </div>
+        <p class="font-bold" style="color:#b45309;">${{ (item.price * item.quantity).toFixed(2) }}</p>
       </div>
 
-      <!-- Summary Row -->
-      <div class="mt-4 pt-4">
-        <div class="flex justify-between mb-2">
-          <p class="font-semibold">Subtotal:</p>
-          <p>$ {{ cartTotal().toFixed(2) }}</p> <!-- Total in the cart -->
+      <div class="mt-6 pt-4" style="border-top:2px solid #e7e5e4;">
+        <div class="flex justify-between text-sm mb-2">
+          <span style="color:#78716c;">Subtotal</span>
+          <span style="color:#1c1917;">${{ cartTotal().toFixed(2) }}</span>
         </div>
-        <div class="flex justify-between mb-2">
-          <p class="font-semibold">Sales Tax:</p>
-          <p>$ {{ salesTax().toFixed(2) }}</p>  <!-- Salestax in the cart -->
+        <div class="flex justify-between text-sm mb-2">
+          <span style="color:#78716c;">Sales Tax (10%)</span>
+          <span style="color:#1c1917;">${{ salesTax().toFixed(2) }}</span>
         </div>
-        <div class="flex justify-between mb-2">
-          <p class="font-semibold">Coupon Code: </p>
-          <input type="text" class="border p-1 pr-2 bg-[#181818] text-right w-28" placeholder="Enter code" v-model="code"> <!-- Coupon code -->
-           </div>
-        <div class="flex justify-between mb-4">
-          <p class="font-semibold">Grand Total:</p>
-          <p>$ {{ grandTotal().toFixed(2) }}</p>  <!-- Grand total in the cart -->
+        <div class="flex justify-between items-center text-sm mb-4">
+          <span style="color:#78716c;">Coupon Code</span>
+          <input type="text" placeholder="Enter code" v-model="code"
+            class="px-2 py-1 rounded border text-sm text-right w-28"
+            style="border-color:#e7e5e4; background:#fff8f0; color:#1c1917;">
+        </div>
+        <div class="flex justify-between font-bold text-lg mb-6">
+          <span style="color:#1c1917;">Grand Total</span>
+          <span style="color:#b45309;">${{ grandTotal().toFixed(2) }}</span>
         </div>
         <div class="flex justify-end">
-          <button @click="checkOutBuy()" class="bg-orange-600 text-white p-2 rounded hover:bg-orange-700" >Buy Now</button> <!-- Checkout button on click -->
+          <button @click="checkOutBuy()"
+            class="px-8 py-3 rounded font-semibold transition"
+            style="background:#b45309; color:#fff;">
+            Place Order →
+          </button>
         </div>
       </div>
     </div>
@@ -53,12 +58,5 @@
 
 <script setup lang="ts">
 import { useCart } from '@/modules/cart/useCart';
-
-const { cart, code, updateQuantity, cartTotal, salesTax, grandTotal, checkOutBuy} = useCart();
-
-
+const { cart, code, updateQuantity, cartTotal, salesTax, grandTotal, checkOutBuy } = useCart();
 </script>
-
-<style scoped>
-/* Add your styles here */
-</style>
