@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="mb-6 pb-4 border-b" style="border-color:#d1faf5;">
-      <h2 class="text-3xl font-bold" style="color:#134e4a; font-family: 'Playfair Display', serif;">All Books</h2>
+    <div class="mb-6 pb-4 border-b" style="border-color:#fde68a;">
+      <h2 class="text-3xl font-bold" style="color:#1c1917; font-family: 'Montserrat', sans-serif;">All Books</h2>
       <p class="mt-1 text-sm" style="color:#64748b;">{{ filtered.length }} of {{ products.length }} titles</p>
     </div>
 
@@ -14,14 +14,14 @@
           type="text"
           placeholder="Search by title or author..."
           class="w-full pl-9 pr-4 py-2.5 rounded-lg border text-sm focus:outline-none"
-          style="border-color:#d1faf5; background:#ffffff; color:#134e4a;"
+          style="border-color:#fde68a; background:#ffffff; color:#1c1917;"
         />
       </div>
       <button
         v-if="search || activeGenre"
         @click="search = ''; activeGenre = ''"
         class="px-4 py-2.5 rounded-lg text-sm transition"
-        style="background:#d1faf5; color:#64748b;">
+        style="background:#f3f4f6; color:#374151;">
         Clear
       </button>
     </div>
@@ -31,7 +31,7 @@
       <button
         @click="activeGenre = ''"
         class="px-3 py-1 rounded-full text-xs font-semibold transition"
-        :style="activeGenre === '' ? 'background:#0d9488; color:#fff;' : 'background:#d1faf5; color:#64748b;'">
+        :style="activeGenre === '' ? 'background:#f59e0b; color:#fff;' : 'background:#f3f4f6; color:#374151;'">
         All
       </button>
       <button
@@ -39,7 +39,7 @@
         :key="genre"
         @click="activeGenre = activeGenre === genre ? '' : genre"
         class="px-3 py-1 rounded-full text-xs font-semibold transition"
-        :style="activeGenre === genre ? 'background:#0d9488; color:#fff;' : 'background:#d1faf5; color:#64748b;'">
+        :style="activeGenre === genre ? 'background:#f59e0b; color:#fff;' : 'background:#f3f4f6; color:#374151;'">
         {{ genre }}
       </button>
     </div>
@@ -49,38 +49,38 @@
       <p class="text-sm mb-4" style="color:#64748b;">{{ error }}</p>
       <button @click="fetchProducts()"
         class="px-5 py-2 rounded text-sm font-semibold transition"
-        style="background:#0d9488; color:#fff;">
+        style="background:#f59e0b; color:#fff;">
         Retry
       </button>
     </div>
 
     <div v-else-if="filtered.length === 0" class="text-center py-20">
       <p class="text-4xl mb-4">📚</p>
-      <p class="font-semibold mb-1" style="color:#134e4a;">No books found</p>
+      <p class="font-semibold mb-1" style="color:#1c1917;">No books found</p>
       <p class="text-sm" style="color:#64748b;">Try a different search or filter</p>
     </div>
 
     <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       <div v-for="product in filtered" :key="product._id"
         class="rounded-xl overflow-hidden shadow-sm flex flex-col transition hover:shadow-md hover:-translate-y-1"
-        style="background:#ffffff; border:1px solid #d1faf5; transition: box-shadow 0.2s, transform 0.2s;">
+        style="background:#ffffff; border:1px solid #fde68a; transition: box-shadow 0.2s, transform 0.2s;">
         <img :src="product.image" :alt="product.title" class="w-full h-52 object-cover">
         <div class="p-4 flex flex-col flex-1">
-          <span class="text-xs font-semibold uppercase tracking-wide mb-1" style="color:#0d9488;">
+          <span class="text-xs font-semibold uppercase tracking-wide mb-1" style="color:#f59e0b;">
             {{ product.genre }}
           </span>
-          <h3 class="font-bold text-base mb-0.5 leading-snug" style="color:#134e4a; font-family: 'Playfair Display', serif;">
+          <h3 class="font-bold text-base mb-0.5 leading-snug" style="color:#1c1917; font-family: 'Montserrat', sans-serif;">
             {{ product.title }}
           </h3>
           <p class="text-sm mb-2" style="color:#64748b;">by {{ product.author }}</p>
           <p class="text-sm flex-1 leading-relaxed line-clamp-2" style="color:#94a3b8;">{{ product.summary }}</p>
-          <div class="flex items-center justify-between mt-4 pt-3" style="border-top:1px solid #d1faf5;">
-            <span class="text-lg font-bold" style="color:#134e4a;">${{ product.price.toFixed(2) }}</span>
+          <div class="flex items-center justify-between mt-4 pt-3" style="border-top:1px solid #fde68a;">
+            <span class="text-lg font-bold" style="color:#1c1917;">${{ product.price.toFixed(2) }}</span>
             <button
               @click="addToCart(product)"
               :disabled="!product.available"
               class="px-4 py-1.5 rounded text-sm font-semibold transition"
-              :style="product.available ? 'background:#0d9488; color:#fff;' : 'background:#d1faf5; color:#94a3b8; cursor:not-allowed;'">
+              :style="product.available ? 'background:#f59e0b; color:#fff;' : 'background:#f3f4f6; color:#374151; cursor:not-allowed;'">
               {{ product.available ? 'Add to Cart' : 'Unavailable' }}
             </button>
           </div>

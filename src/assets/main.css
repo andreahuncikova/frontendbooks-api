@@ -4,16 +4,16 @@
 @tailwind utilities;
 
 :root {
-  --bg: #f0fafb;
+  --bg: #ffffff;
   --surface: #ffffff;
-  --text: #134e4a;
+  --text: #1c1917;
   --muted: #64748b;
-  --border: #d1faf5;
-  --accent: #0d9488;
-  --accent-hover: #0f766e;
-  --linkColor: #0d9488;
-  --linkColorHover: #0f766e;
-  --input-field-color: #0d9488;
+  --border: #fef9c3;
+  --accent: #f59e0b;
+  --accent-hover: #a16207;
+  --linkColor: #f59e0b;
+  --linkColorHover: #a16207;
+  --input-field-color: #f59e0b;
 }
 
 * { box-sizing: border-box !important; }
@@ -21,7 +21,7 @@
 body {
   background-color: var(--bg);
   color: var(--text);
-  font-family: 'Inter', sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
 #app {
