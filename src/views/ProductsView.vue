@@ -1,27 +1,27 @@
 <template>
   <div>
-    <div class="mb-6 pb-4 border-b" style="border-color:#e7e5e4;">
-      <h2 class="text-3xl font-bold" style="color:#1c1917; font-family: 'Playfair Display', serif;">All Books</h2>
-      <p class="mt-1 text-sm" style="color:#78716c;">{{ filtered.length }} of {{ products.length }} titles</p>
+    <div class="mb-6 pb-4 border-b" style="border-color:#d1faf5;">
+      <h2 class="text-3xl font-bold" style="color:#134e4a; font-family: 'Playfair Display', serif;">All Books</h2>
+      <p class="mt-1 text-sm" style="color:#64748b;">{{ filtered.length }} of {{ products.length }} titles</p>
     </div>
 
     <!-- Search + filter bar -->
     <div class="mb-6 flex flex-col sm:flex-row gap-3">
       <div class="relative flex-1">
-        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-sm" style="color:#a8a29e;">🔍</span>
+        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-sm" style="color:#94a3b8;">🔍</span>
         <input
           v-model="search"
           type="text"
           placeholder="Search by title or author..."
           class="w-full pl-9 pr-4 py-2.5 rounded-lg border text-sm focus:outline-none"
-          style="border-color:#e7e5e4; background:#fff8f0; color:#1c1917;"
+          style="border-color:#d1faf5; background:#ffffff; color:#134e4a;"
         />
       </div>
       <button
         v-if="search || activeGenre"
         @click="search = ''; activeGenre = ''"
         class="px-4 py-2.5 rounded-lg text-sm transition"
-        style="background:#e7e5e4; color:#78716c;">
+        style="background:#d1faf5; color:#64748b;">
         Clear
       </button>
     </div>
@@ -31,7 +31,7 @@
       <button
         @click="activeGenre = ''"
         class="px-3 py-1 rounded-full text-xs font-semibold transition"
-        :style="activeGenre === '' ? 'background:#b45309; color:#fff;' : 'background:#e7e5e4; color:#78716c;'">
+        :style="activeGenre === '' ? 'background:#0d9488; color:#fff;' : 'background:#d1faf5; color:#64748b;'">
         All
       </button>
       <button
@@ -39,48 +39,48 @@
         :key="genre"
         @click="activeGenre = activeGenre === genre ? '' : genre"
         class="px-3 py-1 rounded-full text-xs font-semibold transition"
-        :style="activeGenre === genre ? 'background:#b45309; color:#fff;' : 'background:#e7e5e4; color:#78716c;'">
+        :style="activeGenre === genre ? 'background:#0d9488; color:#fff;' : 'background:#d1faf5; color:#64748b;'">
         {{ genre }}
       </button>
     </div>
 
-    <div v-if="loading" class="text-center py-20 text-sm" style="color:#78716c;">Loading...</div>
+    <div v-if="loading" class="text-center py-20 text-sm" style="color:#64748b;">Loading...</div>
     <div v-else-if="error" class="text-center py-20">
-      <p class="text-sm mb-4" style="color:#78716c;">{{ error }}</p>
+      <p class="text-sm mb-4" style="color:#64748b;">{{ error }}</p>
       <button @click="fetchProducts()"
         class="px-5 py-2 rounded text-sm font-semibold transition"
-        style="background:#b45309; color:#fff;">
+        style="background:#0d9488; color:#fff;">
         Retry
       </button>
     </div>
 
     <div v-else-if="filtered.length === 0" class="text-center py-20">
       <p class="text-4xl mb-4">📚</p>
-      <p class="font-semibold mb-1" style="color:#1c1917;">No books found</p>
-      <p class="text-sm" style="color:#78716c;">Try a different search or filter</p>
+      <p class="font-semibold mb-1" style="color:#134e4a;">No books found</p>
+      <p class="text-sm" style="color:#64748b;">Try a different search or filter</p>
     </div>
 
     <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       <div v-for="product in filtered" :key="product._id"
         class="rounded-xl overflow-hidden shadow-sm flex flex-col transition hover:shadow-md hover:-translate-y-1"
-        style="background:#fff8f0; border:1px solid #e7e5e4; transition: box-shadow 0.2s, transform 0.2s;">
+        style="background:#ffffff; border:1px solid #d1faf5; transition: box-shadow 0.2s, transform 0.2s;">
         <img :src="product.image" :alt="product.title" class="w-full h-52 object-cover">
         <div class="p-4 flex flex-col flex-1">
-          <span class="text-xs font-semibold uppercase tracking-wide mb-1" style="color:#b45309;">
+          <span class="text-xs font-semibold uppercase tracking-wide mb-1" style="color:#0d9488;">
             {{ product.genre }}
           </span>
-          <h3 class="font-bold text-base mb-0.5 leading-snug" style="color:#1c1917; font-family: 'Playfair Display', serif;">
+          <h3 class="font-bold text-base mb-0.5 leading-snug" style="color:#134e4a; font-family: 'Playfair Display', serif;">
             {{ product.title }}
           </h3>
-          <p class="text-sm mb-2" style="color:#78716c;">by {{ product.author }}</p>
-          <p class="text-sm flex-1 leading-relaxed line-clamp-2" style="color:#a8a29e;">{{ product.summary }}</p>
-          <div class="flex items-center justify-between mt-4 pt-3" style="border-top:1px solid #e7e5e4;">
-            <span class="text-lg font-bold" style="color:#1c1917;">${{ product.price.toFixed(2) }}</span>
+          <p class="text-sm mb-2" style="color:#64748b;">by {{ product.author }}</p>
+          <p class="text-sm flex-1 leading-relaxed line-clamp-2" style="color:#94a3b8;">{{ product.summary }}</p>
+          <div class="flex items-center justify-between mt-4 pt-3" style="border-top:1px solid #d1faf5;">
+            <span class="text-lg font-bold" style="color:#134e4a;">${{ product.price.toFixed(2) }}</span>
             <button
               @click="addToCart(product)"
               :disabled="!product.available"
               class="px-4 py-1.5 rounded text-sm font-semibold transition"
-              :style="product.available ? 'background:#b45309; color:#fff;' : 'background:#e7e5e4; color:#a8a29e; cursor:not-allowed;'">
+              :style="product.available ? 'background:#0d9488; color:#fff;' : 'background:#d1faf5; color:#94a3b8; cursor:not-allowed;'">
               {{ product.available ? 'Add to Cart' : 'Unavailable' }}
             </button>
           </div>

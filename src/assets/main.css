@@ -4,16 +4,16 @@
 @tailwind utilities;
 
 :root {
-  --bg: #faf7f2;
-  --surface: #fff8f0;
-  --text: #1c1917;
-  --muted: #78716c;
-  --border: #e7e5e4;
-  --accent: #b45309;
-  --accent-hover: #92400e;
-  --linkColor: #b45309;
-  --linkColorHover: #92400e;
-  --input-field-color: #b45309;
+  --bg: #f0fafb;
+  --surface: #ffffff;
+  --text: #134e4a;
+  --muted: #64748b;
+  --border: #d1faf5;
+  --accent: #0d9488;
+  --accent-hover: #0f766e;
+  --linkColor: #0d9488;
+  --linkColorHover: #0f766e;
+  --input-field-color: #0d9488;
 }
 
 * { box-sizing: border-box !important; }
