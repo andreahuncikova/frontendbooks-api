@@ -1,10 +1,11 @@
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import type { CartItem, OrderItems } from '../../interfaces/interfaces'
 
 // module-level — shared across all components
 const cart = ref<CartItem[]>(JSON.parse(localStorage.getItem('cart') || '[]'));
 const orders = ref<OrderItems[]>(JSON.parse(localStorage.getItem('orders') || '[]'));
 const code = ref<string>('');
+const cartCount = computed(() => cart.value.reduce((acc, item) => acc + item.quantity, 0));
 
 watch(cart, (val) => { localStorage.setItem('cart', JSON.stringify(val)); }, { deep: true });
 watch(orders, (val) => { localStorage.setItem('orders', JSON.stringify(val)); }, { deep: true });
@@ -93,6 +94,7 @@ export const useCart = () => {
 
   return {
     cart,
+    cartCount,
     orders,
     code,
     addToCart,

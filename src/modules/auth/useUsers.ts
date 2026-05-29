@@ -82,6 +82,7 @@ export const useUsers = () => {
         password.value = '';
         localStorage.removeItem('lsToken');
         localStorage.removeItem('UserIDToken');
+        router.push('/');
     };
 
     return { token, isLoggedIn: state.isLoggedIn, error, loading, user, name, email, password, fetchToken, registerUser, logout };

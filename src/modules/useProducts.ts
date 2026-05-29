@@ -60,7 +60,7 @@ export const useProducts = () => {
         publishedYear: product.publishedYear || new Date().getFullYear(),
         pages: product.pages || 0,
         summary: product.summary || 'New product summary',
-        available: product.available || true,
+        available: product.available ?? true,
         _createdBy: userId,
         hasDiscount: product.hasDiscount || false,
         discount: product.discount || 0,

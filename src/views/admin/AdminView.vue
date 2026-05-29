@@ -28,6 +28,15 @@
             <input v-model="newProduct.price" type="number" placeholder="Price"
               class="px-4 py-2.5 rounded border text-sm focus:outline-none"
               style="border-color:#fde68a; background:#fefce8; color:#1c1917;" />
+            <input v-model="newProduct.genre" type="text" placeholder="Genre"
+              class="px-4 py-2.5 rounded border text-sm focus:outline-none"
+              style="border-color:#fde68a; background:#fefce8; color:#1c1917;" />
+            <input v-model="newProduct.publishedYear" type="number" placeholder="Published Year"
+              class="px-4 py-2.5 rounded border text-sm focus:outline-none"
+              style="border-color:#fde68a; background:#fefce8; color:#1c1917;" />
+            <input v-model="newProduct.pages" type="number" placeholder="Pages"
+              class="px-4 py-2.5 rounded border text-sm focus:outline-none"
+              style="border-color:#fde68a; background:#fefce8; color:#1c1917;" />
             <input v-model="newProduct.image" type="text" placeholder="Image URL"
               class="px-4 py-2.5 rounded border text-sm focus:outline-none col-span-full"
               style="border-color:#fde68a; background:#fefce8; color:#1c1917;" />
@@ -74,6 +83,15 @@
             class="px-4 py-2 rounded border text-sm"
             style="border-color:#fde68a; background:#fefce8; color:#1c1917;" />
           <input type="text" v-model="product.image" placeholder="Image URL"
+            class="px-4 py-2 rounded border text-sm"
+            style="border-color:#fde68a; background:#fefce8; color:#1c1917;" />
+          <input type="text" v-model="product.genre" placeholder="Genre"
+            class="px-4 py-2 rounded border text-sm"
+            style="border-color:#fde68a; background:#fefce8; color:#1c1917;" />
+          <input type="number" v-model="product.publishedYear" placeholder="Published Year"
+            class="px-4 py-2 rounded border text-sm"
+            style="border-color:#fde68a; background:#fefce8; color:#1c1917;" />
+          <input type="number" v-model="product.pages" placeholder="Pages"
             class="px-4 py-2 rounded border text-sm"
             style="border-color:#fde68a; background:#fefce8; color:#1c1917;" />
           <div class="flex flex-wrap gap-4 items-center px-4 py-2 rounded border"

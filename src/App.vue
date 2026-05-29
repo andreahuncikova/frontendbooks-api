@@ -21,7 +21,7 @@
         <button @click="toggleCart"
           class="flex items-center gap-2 px-4 py-2 rounded text-sm font-semibold transition"
           style="background:#f59e0b; color:#fff;">
-          🛒 Cart ({{ cart.length }})
+          🛒 Cart ({{ cartCount }})
         </button>
       </nav>
     </header>
@@ -51,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
 import { useUsers } from './modules/auth/useUsers';
 import { state } from './modules/globalState/state';
@@ -59,8 +59,13 @@ import { useCart } from './modules/cart/useCart';
 import CartBasket from './components/cart/CartBasketView.vue';
 
 const isCartOpen = ref(false);
+
+onMounted(() => {
+  const API_URL = import.meta.env.VITE_API_URL;
+  fetch(`${API_URL}/start-cron/60`).catch(() => {});
+});
 const toggleCart = () => { isCartOpen.value = !isCartOpen.value; };
 const { logout } = useUsers();
-const { cart } = useCart();
+const { cartCount } = useCart();
 const isLoggedIn = computed(() => state.isLoggedIn);
 </script>
