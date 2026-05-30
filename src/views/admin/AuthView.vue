@@ -97,7 +97,11 @@ const registerSuccess = ref(false)
 
 const toggleRegisterDialog = () => {
   if (registerDialog.value) {
-    registerDialog.value.open ? registerDialog.value.close() : registerDialog.value.showModal()
+    if (registerDialog.value.open) {
+      registerDialog.value.close()
+    } else {
+      registerDialog.value.showModal()
+    }
   }
   registerError.value = null
   registerSuccess.value = false
