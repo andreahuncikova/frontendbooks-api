@@ -1,52 +1,45 @@
-# product-page-dev-bc
+# BookStore Frontend
 
-This template should help get you started developing with Vue 3 in Vite.
+Frontend for a bookstore web app built with Vue 3, TypeScript and Tailwind CSS.
 
-## Recommended IDE Setup
+Live: [frontendbooks-api.onrender.com](https://frontendbooks-api.onrender.com)
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Tech stack
 
-## Type Support for `.vue` Imports in TS
+- Vue 3 + TypeScript
+- Vite
+- Tailwind CSS
+- Vue Router
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+## How to run locally
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-##
-Render Swagger from Søren
-```
-https://ments-restapi.onrender.com/api/docs/
-```
-
-## 
-Using sspangsberg backend:
-```
-https://github.com/sspangsberg/MENTS-RESTAPI
-```
-
-## Project Setup
-
-```sh
+```bash
 npm install
+npm run dev       # dev server at http://localhost:5173
 ```
 
-### Compile and Hot-Reload for Development
+Make sure the API is also running — set `VITE_API_URL` in a `.env` file:
 
-```sh
-npm run dev
+```
+VITE_API_URL=http://localhost:4000
 ```
 
-### Type-Check, Compile and Minify for Production
+## Build for production
 
-```sh
+```bash
 npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
 npm run lint
 ```
-# frontendbooks-api
+
+## Features
+
+- Browse and search books by title, author or genre
+- Register and log in (JWT auth)
+- Add books to cart, update quantities, apply coupon code
+- Checkout and view order history
+- Admin panel — create, edit and delete books (requires login)
+
+## Related
+
+- API repo: [github.com/andreahuncikova/api](https://github.com/andreahuncikova/api)
+- API live: [api-e7dw.onrender.com/api-docs](https://api-e7dw.onrender.com/api-docs/)
